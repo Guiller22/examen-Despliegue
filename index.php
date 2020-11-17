@@ -1,10 +1,28 @@
 <?php
 
-echo'
+require_once 'vendor/ballen/distical/src/Distical.inc.php';
+use Ballen\Distical\Calculator as DistanceCalculator;
+use Ballen\Distical\Entities\LatLong;
+use Illuminate\Http\Request;
+use SujalPatel\IntToEnglish\IntToEnglish;
 
-<!DOCTYPE html>
-<html>
 
+
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+if (isset($_REQUEST['calcular'])) {
+    $longitudPunto1 = $_REQUEST['longitudPunto1'];
+    $latitudPunto1 = $_REQUEST['latitudPunto1'];
+    $longitudPunto2 = $_REQUEST['longitudPunto2'];
+    $latitudPunto2 = $_REQUEST['latitudPunto2'];
+    $punto1 = new LatLong($longitudPunto1, $latitudPunto1);
+    $punto2 = new LatLong($longitudPunto2, $latitudPunto2);
+    $distanceCalculator = new DistanceCalculator($punto1, $punto2);
+
+    echo '<p class="resultado">La distancia entre valladolid y sevilla es '. $distanceCalculator->get().'';
+    $distanciaIngles = IntToEnglish::Int2Eng($distanceCalculator->get());
+    echo '<p class="resultado">La distancia entre los dos puntos en ingles es '. $distanciaIngles;
+};
+echo '
 <head>
     <link rel="stylesheet" type="text/css" href="CSS/estilo.css">
     <!--Import Google Icon Font-->
@@ -57,22 +75,22 @@ echo'
                 
                 <div class="input-field col s2">
                     <label for="n_entero">Introduce la Latitud Punto 1:</label>
-                    <input name="n_entero" type="text" class="validate">
+                    <input name="latitudPunto1" type="text" class="validate">
                     
                 </div>
                 <div class="input-field col s2">
                     <label for="n_entero">Introduce la Longitud  Punto 1:</label>
-                    <input name="n_entero" type="text" class="validate">
+                    <input name="longitudPunto1" type="text" class="validate">
                 
                 </div>
                 <div class="input-field col s2">
                     <label for="n_entero">Introduce la Latitud Punto 2:</label>
-                    <input name="n_entero" type="text" class="validate">
+                    <input name="latitudPunto2" type="text" class="validate">
                 
                 </div>
                 <div class="input-field col s2">
                     <label for="n_entero">Introduce la Longitud  Punto 2:</label>
-                    <input name="n_entero" type="text" class="validate">
+                    <input name="longitudPunto2" type="text" class="validate">
                 
                 </div>
                
@@ -94,5 +112,3 @@ echo'
 </body>
 
 </html>';
-
-
